@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Admin, DataProvider, Resource } from "react-admin";
-import buildGraphQLProvider from "./data-provider/graphqlDataProvider";
+import dataProvider from "./data-provider/graphqlDataProvider";
 import { theme } from "./theme/theme";
 import Login from "./Login";
 import "./App.scss";
@@ -9,22 +9,13 @@ import { UserList } from "./user/UserList";
 import { UserCreate } from "./user/UserCreate";
 import { UserEdit } from "./user/UserEdit";
 import { UserShow } from "./user/UserShow";
+import { HelperList } from "./helper/HelperList";
+import { HelperCreate } from "./helper/HelperCreate";
+import { HelperEdit } from "./helper/HelperEdit";
+import { HelperShow } from "./helper/HelperShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
-  const [dataProvider, setDataProvider] = useState<DataProvider | null>(null);
-  useEffect(() => {
-    buildGraphQLProvider
-      .then((provider: any) => {
-        setDataProvider(() => provider);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
-  }, []);
-  if (!dataProvider) {
-    return <div>Loading</div>;
-  }
   return (
     <div className="App">
       <Admin
@@ -41,6 +32,13 @@ const App = (): React.ReactElement => {
           edit={UserEdit}
           create={UserCreate}
           show={UserShow}
+        />
+        <Resource
+          name="Helper"
+          list={HelperList}
+          edit={HelperEdit}
+          create={HelperCreate}
+          show={HelperShow}
         />
       </Admin>
     </div>
